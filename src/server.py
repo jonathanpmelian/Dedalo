@@ -2,10 +2,12 @@ import os
 from flask import Flask, send_from_directory
 from livereload import Server
 from src.builder import build_site
+import logging
+logging.basicConfig(level=logging.INFO)
 
 def run_dev_server(project_name):
     if not os.path.exists(os.path.join(os.getcwd(), project_name)):
-        print(f'Error: Project {project_name} does not exist.')
+        logging.error(f'Error: Project {project_name} does not exist.')
         return
     
     app = Flask(__name__)
@@ -23,5 +25,5 @@ def run_dev_server(project_name):
     server.watch(os.path.join(os.getcwd(), project_name, 'content')), lambda: build_site(project_name, "cc")
     server.watch(os.path.join(os.getcwd(), project_name, 'themes', 'cc')), lambda: build_site(project_name, "cc")
 
-    print("Starting development server with live reload...")
+    logging.info("Starting development server with live reload...")
     server.serve(open_url_delay=True)

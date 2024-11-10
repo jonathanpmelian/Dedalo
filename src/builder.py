@@ -1,10 +1,12 @@
 import os
 from jinja2 import Template
 import markdown
+import logging
+logging.basicConfig(level=logging.INFO)
 
 def build_site(project_name, theme_name):
     if not os.path.exists(os.path.join(os.getcwd(), project_name)):
-        print(f'Error: Project {project_name} does not exist.')
+        logging.error(f'Error: Project {project_name} does not exist.')
         return
 
     content_dir = os.path.join(os.getcwd(), project_name, 'content')
@@ -28,4 +30,4 @@ def build_site(project_name, theme_name):
                 with open(output_path, 'w') as file:
                     file.write(rendered_html)
                     
-    print(f'Site built successfully!')
+    logging.info(f'Site built successfully!')

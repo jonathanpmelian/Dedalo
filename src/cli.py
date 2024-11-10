@@ -2,6 +2,7 @@ import argparse
 from src.file_manager import create_project, create_theme, create_page
 from src.builder import build_site
 from src.server import run_dev_server
+import logging
 
 def main():
     parser = argparse.ArgumentParser(description='Create a new static site project.')
@@ -43,4 +44,4 @@ def main():
     elif args.command == "dev":
         run_dev_server(args.name)
     else:
-        print('Invalid command or missing arguments. Use "init <site_name>", "theme <site_name> <theme_name>", or "page <site_name> <page_name>"')
+        logging.error('Invalid command or missing arguments. Use "init <site_name>", "theme <site_name> <theme_name>", or "page <site_name> <page_name>"')
