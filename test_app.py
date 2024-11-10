@@ -1,7 +1,7 @@
 import os
 import shutil
 import pytest
-from app import create_theme, create_project, create_page
+from app import create_theme, create_project, create_page, build_site
 
 @pytest.fixture
 def setup_and_teardown():
@@ -34,3 +34,18 @@ def test_create_new_page(setup_and_teardown):
 
     page_path = os.path.join("mysite", "content", "about.md")
     assert os.path.exists(page_path), "Page was not created correctly"
+
+def test_build_site_creates_html_from_markdown(setup_and_teardown):
+    create_project("mysite")
+    create_theme("mysite", "cc")
+
+    # Check if HTML is created correctly
+    build_site("mysite", "cc")
+    output_path = os.path.join("mysite", "public", "index.html")
+    assert os.path.exists(output_path), "HTML was not created correctly"
+
+    # Check if Markdown content is rendered correctly
+    with open(output_path, "r") as f:
+        contents = f.read()
+        assert "<h1>Welcome to your new static site!</h1>" in contents, "Markdown title was not rendered correctly"
+        assert "<p>This is the homepage.</p>" in contents, "Markdown content was not rendered correctly"
