@@ -1,7 +1,8 @@
 import os
 import shutil
 import pytest
-from app import create_theme, create_project, create_page, build_site
+from src.file_manager import create_theme, create_project, create_page
+from src.builder import build_site
 
 @pytest.fixture
 def setup_and_teardown():
