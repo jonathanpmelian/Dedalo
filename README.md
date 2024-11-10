@@ -1,8 +1,6 @@
-### Folder structure
+### Project structure
 
-- **venv:** Virtual environment
-
-- **templates:** Folder for theme templates
+- **themes:** Folder for theme templates
 
 - **content:** Folder for markdown content files
 
