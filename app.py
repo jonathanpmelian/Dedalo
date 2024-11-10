@@ -2,7 +2,31 @@ import argparse
 import os
 import markdown
 from jinja2 import Template
+from flask import Flask, send_from_directory
+from livereload import Server
 
+def run_dev_server(project_name):
+    if not os.path.exists(os.path.join(os.getcwd(), project_name)):
+        print(f'Error: Project {project_name} does not exist.')
+        return
+    
+    app = Flask(__name__)
+    app.static_folder = os.path.join(os.getcwd(), project_name, 'public')
+    
+    @app.route('/')
+    def serve_index():
+        return send_from_directory(app.static_folder, 'index.html')
+    
+    @app.route('/<path:filename>')
+    def serve_file(filename):
+        return send_from_directory(app.static_folder, filename)
+
+    server = Server(app.wsgi_app)
+    server.watch(os.path.join(os.getcwd(), project_name, 'content')), lambda: build_site(project_name, "cc")
+    server.watch(os.path.join(os.getcwd(), project_name, 'themes', 'cc')), lambda: build_site(project_name, "cc")
+
+    print("Starting development server with live reload...")
+    server.serve(open_url_delay=True)
 
 def create_project(name):
     project_path = os.path.join(os.getcwd(), name)
@@ -118,6 +142,10 @@ if __name__ == '__main__':
     build_parser.add_argument('name', help='The name of your site.')
     build_parser.add_argument('theme_name', help='The name of the theme to use.')
 
+    # Subparser for "dev" command
+    dev_parser = subparsers.add_parser('dev', help='Run the development server')
+    dev_parser.add_argument('name', help='The name of your site.')
+
     args = parser.parse_args()
 
     if args.command == 'init':
@@ -128,5 +156,7 @@ if __name__ == '__main__':
         create_page(args.name, args.page_name)
     elif args.command == "build":
         build_site(args.name, args.theme_name)
+    elif args.command == "dev":
+        run_dev_server(args.name)
     else:
         print('Invalid command or missing arguments. Use "init <site_name>", "theme <site_name> <theme_name>", or "page <site_name> <page_name>"')
