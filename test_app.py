@@ -1,18 +1,29 @@
 import os
 import shutil
-from app import create_theme
+import pytest
+from app import create_theme, create_project
 
-def teardown_module():
-    shutil.rmtree("mysite")
-    
-def setup_module():
+@pytest.fixture
+def setup_and_teardown():
+  # Set up
   if os.path.exists("mysite"):
-    teardown_module()  
+        shutil.rmtree("mysite")
 
-  os.makedirs("mysite")
+  yield
+   
+  # Clean up
+  if os.path.exists("mysite"):
+        shutil.rmtree("mysite")
 
-def test_create_theme():
+def test_create_theme(setup_and_teardown):
+   create_project("mysite")
    create_theme("mysite", "cc")
 
    theme_path = os.path.join("mysite", "themes", "cc", "index.html")
    assert os.path.exists(theme_path), "Theme was not created correctly"
+
+def test_project_initialization_with_content(setup_and_teardown):
+    create_project("mysite")
+
+    content_path = os.path.join("mysite", "content", "index.md")
+    assert os.path.exists(content_path), "Content was not created correctly"

@@ -11,14 +11,15 @@ def create_project(name):
 
         # Create the project directory and index.html file
         os.makedirs(project_path)
-    
-        with open(os.path.join(project_path, 'index.html'), 'w') as file:
-            file.write('<h1>Welcome to your new static site!</h1>')
+        os.makedirs(os.path.join(project_path, 'content'))
+        os.makedirs(os.path.join(project_path, 'themes'))
+        with open(os.path.join(project_path, 'content', 'index.md'), 'w') as file:
+            file.write('# Welcome to your new static site!\n This is the homepage.')
             
         print(f'Project {name} created successfully!')
         
     except OSError as e:
-        print(f'Error: Failed to create directory {name} or index.html. {e}')
+        print(f'Error: Failed to create project directory. {e}')
 
 
 
