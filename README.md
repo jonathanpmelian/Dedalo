@@ -1,4 +1,4 @@
-# Static Site Generator
+# Dedalo
 
 A Python-based static site generator that allows users to create, manage, and build static websites with a development server featuring live reload. This tool supports project initialization, theme creation, content management using Markdown files, and customizable templates.
 
