@@ -6,6 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def run_dev_server(project_name):
+    print("Building site...")
     if not os.path.exists(os.path.join(os.getcwd(), project_name)):
         logging.error(f'Error: Project {project_name} does not exist.')
         return
@@ -22,8 +23,8 @@ def run_dev_server(project_name):
         return send_from_directory(app.static_folder, filename)
 
     server = Server(app.wsgi_app)
-    server.watch(os.path.join(os.getcwd(), project_name, 'content')), lambda: build_site(project_name, "cc")
-    server.watch(os.path.join(os.getcwd(), project_name, 'themes', 'cc')), lambda: build_site(project_name, "cc")
+    server.watch(os.path.join(os.getcwd(), project_name, 'content'), lambda: build_site(project_name, "cc"))
+    server.watch(os.path.join(os.getcwd(), project_name, 'themes', 'cc'), lambda: build_site(project_name, "cc"))
 
     logging.info("Starting development server with live reload...")
     server.serve(open_url_delay=True)

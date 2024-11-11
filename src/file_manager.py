@@ -18,6 +18,15 @@ def create_project(name: str):
       os.makedirs(os.path.join(project_path, 'themes'))
       os.makedirs(os.path.join(project_path, 'public'))
 
+      # Add a menu.yaml file with a homepage entry
+      with open(os.path.join(project_path, 'menu.yaml'), 'x') as file:
+          file.write(
+                '# Default menu configuration\n'
+                '- label: Home\n'
+                '  url: /\n'
+                '  order: 1\n'
+                )
+
       # Add a default index.md file
       with open(os.path.join(project_path, 'content', 'index.md'), 'w') as file:
           file.write('# Welcome to your new static site!\n This is the homepage.')
@@ -43,7 +52,7 @@ def create_theme(project_name:str, theme_name:str):
   try:
       os.makedirs(theme_path)
       with open(os.path.join(theme_path, 'index.html'), 'x') as file:
-          file.write('<!DOCTYPE html><html><head><title>{{ Title }}</title></head><body>{{ Content }}</body></html>')
+          file.write('<!DOCTYPE html><html><head><title>{{ Title }}</title></head><body><nav><ul>{% for item in Menu %}<li><a href="{{item.url}}">{{item.label}}</a></li>{% endfor %}</ul></nav>{{ Content }}</body></html>')
 
       logging.info(f'Theme {theme_name} created successfully in project {project_name}!')
   except OSError as e:

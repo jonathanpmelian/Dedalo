@@ -2,13 +2,47 @@ import os
 from jinja2 import Template
 import markdown
 import logging
+import yaml
 logging.basicConfig(level=logging.INFO)
+
+def load_menu_config(project_name):
+    menu_path = os.path.join(os.getcwd(), project_name, 'menu.yaml')
+    if os.path.exists(menu_path):
+        with open(menu_path, 'r') as file:
+            return yaml.safe_load(file)
+    return []
+
+def build_menu(project_name):
+    menu_items = load_menu_config(project_name)
+    existing_urls = {item['url'] for item in menu_items}
+    content_path = os.path.join(os.getcwd(), project_name, 'content')
+    
+    for filename in os.listdir(content_path):
+        if filename.endswith('.md'):
+            page_name = filename.replace(".md", "")
+            url = f"/{page_name}" if page_name != "index" else "/"
+
+            if url not in existing_urls:
+                menu_items.append({
+                    'label': page_name.capitalize(),
+                    'url': url,
+                    'order': len(menu_items)+1
+                })
+    
+
+    menu_items.sort(key=lambda x: x['order'])
+    return menu_items
 
 def build_site(project_name, theme_name):
     if not os.path.exists(os.path.join(os.getcwd(), project_name)):
         logging.error(f'Error: Project {project_name} does not exist.')
-        return
-
+        return # Exit the function
+    
+    if not os.path.exists(os.path.join(os.getcwd(), project_name, 'themes', theme_name)):
+        logging.error(f'Error: Theme {theme_name} does not exist.')
+        return # Exit the function
+    
+    menu = build_menu(project_name)
     content_dir = os.path.join(os.getcwd(), project_name, 'content')
     theme_dir = os.path.join(os.getcwd(), project_name, 'themes', theme_name, 'index.html')
     output_dir = os.path.join(os.getcwd(), project_name, 'public')
@@ -24,7 +58,7 @@ def build_site(project_name, theme_name):
                 html_content = markdown.markdown(md_content)
 
                 title = md_content.splitlines()[0].lstrip('# ')
-                rendered_html = template.render(Title=title, Content=html_content)
+                rendered_html = template.render(Title=title, Content=html_content, Menu=menu)
 
                 output_path = os.path.join(output_dir, md_file.replace('.md', '.html'))
                 with open(output_path, 'w') as file:
