@@ -66,7 +66,8 @@ mysite/
 ├── content/
 │   └── index.md
 ├── themes/
-└── public/
+├── public/
+└── menu.yaml
 ```
 
 ### Add a Theme
@@ -74,10 +75,10 @@ mysite/
 You can add a theme to your project using the `theme` command:
 
 ```bash
-ssg theme mysite mytheme
+ssg theme mysite my-theme
 ```
 
-This creates a `themes/mytheme` directory where you can customize the HTML template.
+This creates a `themes/my-theme` directory where you can customize the HTML template.
 
 ### Add a New Page
 
@@ -94,7 +95,7 @@ This creates a `content/about.md` file. Use Markdown syntax to add content to th
 To generate the HTML files from your Markdown and templates, run:
 
 ```bash
-ssg build mysite mytheme
+ssg build mysite my-theme
 ```
 
 This compiles the site and outputs HTML files to the `public` directory, ready for deployment.
@@ -119,11 +120,12 @@ mysite/
 │   ├── about.md
 │   └── index.md
 ├── themes/
-│   └── mytheme/
+│   └── my-theme/
 │       └── index.html
 ├── public/
 │   ├── about.html
 │   └── index.html
+└── menu.yaml
 ```
 
 - **`content/`**: Contains Markdown files that make up the pages of your site.
