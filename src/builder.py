@@ -20,7 +20,7 @@ def build_menu(project_name):
     for filename in os.listdir(content_path):
         if filename.endswith('.md'):
             page_name = filename.replace(".md", "")
-            url = f"/{page_name}" if page_name != "index" else "/"
+            url = f"/{page_name}.html" if page_name != "index" else "/"
 
             if url not in existing_urls:
                 menu_items.append({
