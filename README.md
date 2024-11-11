@@ -66,8 +66,7 @@ mysite/
 ├── content/
 │   └── index.md
 ├── themes/
-├── public/
-└── index.html (default homepage content)
+└── public/
 ```
 
 ### Add a Theme
