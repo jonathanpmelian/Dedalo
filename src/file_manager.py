@@ -52,7 +52,7 @@ def create_theme(project_name:str, theme_name:str):
   try:
       os.makedirs(theme_path)
       with open(os.path.join(theme_path, 'index.html'), 'x') as file:
-          file.write('<!DOCTYPE html><html><head><title>{{ Title }}</title></head><body><nav><ul>{% for item in Menu %}<li><a href="{{item.url}}">{{item.label}}</a></li>{% endfor %}</ul></nav>{{ Content }}</body></html>')
+          file.write('<!DOCTYPE html><html><head><title>{{ Title }}</title><meta name="description" content="{{ Description }}" /></head><body><nav><ul>{% for item in Menu %}<li><a href="{{item.url}}">{{item.label}}</a></li>{% endfor %}</ul></nav>{{ Content }}</body></html>')
 
       logging.info(f'Theme {theme_name} created successfully in project {project_name}!')
   except OSError as e:
