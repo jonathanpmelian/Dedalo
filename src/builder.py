@@ -4,7 +4,37 @@ import markdown
 import logging
 import yaml
 import re
+import datetime
+
 logging.basicConfig(level=logging.INFO)
+
+def generate_sitemap(output_dir):
+    """
+    Generate a sitemap.xml file for the site
+    """
+    sitemap_path = os.path.join(output_dir, 'sitemap.xml')
+    base_url="http://127.0.0.1:5500"
+    
+    sitemap_content = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    for filename in os.listdir(output_dir):
+        if filename.endswith('.html'):
+            page_url = f"{base_url}/{filename if filename != 'index.html' else ''}"
+            lastmod = datetime.datetime.now().strftime("%Y-%m-%d")
+            sitemap_content.append("  <url>")
+            sitemap_content.append(f"    <loc>{page_url}</loc>")
+            sitemap_content.append(f"    <lastmod>{lastmod}</lastmod>")
+            sitemap_content.append("  </url>")
+
+    sitemap_content.append('</urlset>')
+
+    with open(sitemap_path, 'w') as file:
+        file.write("\n".join(sitemap_content))
+
+    logging.info(f"Sitemap generated at '{sitemap_path}'")
 
 def load_menu_config(project_name):
     """
@@ -92,5 +122,6 @@ def build_site(project_name, theme_name):
 
                 with open(output_path, 'w') as file:
                     file.write(rendered_html)
-                    
+    
+    generate_sitemap(output_dir)
     logging.info(f'Site built successfully!')
