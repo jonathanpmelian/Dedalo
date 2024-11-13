@@ -63,7 +63,6 @@ def create_page(project_name:str, page_name:str):
   """
   Create a new page in the project content directory
   """
-
   if not os.path.exists(os.path.join(os.getcwd(), project_name)):
       logging.error(f'Error: Project {project_name} does not exist.')
       return # Exit the function

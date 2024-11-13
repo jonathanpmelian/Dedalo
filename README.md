@@ -1,11 +1,12 @@
 # Dedalo
 
-A Python-based static site generator that allows users to create, manage, and build static websites with a development server featuring live reload. This tool supports project initialization, theme creation, content management using Markdown files, and customizable templates.
+Dedalo is a Python-based static site generator that allows users to create, manage, and build static websites. It supports project initialization, theme creation, content management using Markdown files with front matter, customizable templates, and a development server with live reload.
 
 ## Features
 
 - **Initialize a New Site**: Quickly set up a new project directory with a content structure.
 - **Create Themes**: Easily create and apply themes with customizable HTML templates.
+- **Front Matter Support**: Use YAML front matter in Markdown files for dynamic page metadata, such as title or description.
 - **Add Pages**: Generate new Markdown pages that integrate seamlessly with existing themes.
 - **Build the Site**: Render HTML files from Markdown and templates into a `public` directory for deployment.
 - **Development Server**: Preview the site locally with automatic live reloading on content or theme changes.
@@ -70,6 +71,20 @@ mysite/
 └── menu.yaml
 ```
 
+### Add Front Matter in Markdown files
+
+Dedalo supports YAML front matter in Markdown files, which allows you to define metadata such as `title` or `description`. Example:
+
+```
+---
+title: "About Us"
+description: "Learn more about our team and mission."
+---
+
+# About Us
+Welcome to the about page! Here you’ll find information about our team and mission.
+```
+
 ### Add a Theme
 
 You can add a theme to your project using the `theme` command:
@@ -131,6 +146,7 @@ mysite/
 - **`content/`**: Contains Markdown files that make up the pages of your site.
 - **`themes/`**: Stores the HTML templates for your site’s themes.
 - **`public/`**: Generated output files that can be deployed to a web server.
+- **`menu.yaml`**: Default menu configuration file, where users can define menu structure.
 
 ## Configuration
 
@@ -149,7 +165,7 @@ pip install -r requirements.txt
 Tests are written with `pytest`. To run tests:
 
 ```bash
-pytest test_app.py
+pytest
 ```
 
 ### Contributing

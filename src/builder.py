@@ -7,6 +7,9 @@ import re
 logging.basicConfig(level=logging.INFO)
 
 def load_menu_config(project_name):
+    """
+    Load the menu.yaml file from the project directory
+    """
     menu_path = os.path.join(os.getcwd(), project_name, 'menu.yaml')
     if os.path.exists(menu_path):
         with open(menu_path, 'r') as file:
@@ -14,6 +17,10 @@ def load_menu_config(project_name):
     return []
 
 def build_menu(project_name):
+    """
+    Build the menu items for the site ordered by the menu.yaml file or 
+    by the order of the files in the content directory
+    """
     menu_items = load_menu_config(project_name)
     existing_urls = {item['url'] for item in menu_items}
     content_path = os.path.join(os.getcwd(), project_name, 'content')
@@ -35,6 +42,9 @@ def build_menu(project_name):
     return menu_items
 
 def parse_front_matter(file):
+    """
+    Split the front matter and markdown content from a file
+    """
     content = file.read()
     match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)', content, re.DOTALL)
 
@@ -48,6 +58,9 @@ def parse_front_matter(file):
     return front_matter, markdown_content
 
 def build_site(project_name, theme_name):
+    """
+    Build the site using the content and theme provided
+    """
     if not os.path.exists(os.path.join(os.getcwd(), project_name)):
         logging.error(f'Error: Project {project_name} does not exist.')
         return # Exit the function
