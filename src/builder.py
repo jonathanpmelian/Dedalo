@@ -115,7 +115,8 @@ def build_site(project_name, theme_name):
                 html_content = markdown.markdown(markdown_content)
                 title = front_matter.get('title') or markdown_content.splitlines()[0].lstrip('# ')
                 description = front_matter.get('description', '')
-
+                layout = front_matter.get('layout', 'index.html')
+                # TODO: check if the layout is the index.html, is not adapt the template.
                 rendered_html = template.render(Description=description, Title=title, Content=html_content, Menu=menu)
 
                 output_path = os.path.join(output_dir, md_file.replace('.md', '.html'))
