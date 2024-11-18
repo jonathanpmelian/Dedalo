@@ -1,6 +1,15 @@
 ## Usage
 
-### Initialize a New Project
+To summarize this are the steps to follow to run your website:
+
+1. Initialize a new project
+2. Add pages, themes, from matter and custom layouts to customize your website
+3. Build the site
+4. Run the development server
+
+Now, let's check in deep each one of them.
+
+## Initialize a New Project
 
 To start a new project, use the `init` command with a project name:
 
@@ -19,7 +28,7 @@ mysite/
 └── menu.yaml
 ```
 
-## Directory Structure
+### Directory Structure
 
 A typical project directory structure after initialization might look like this:
 
@@ -42,7 +51,7 @@ mysite/
 - **`public/`**: Generated output files that can be deployed to a web server.
 - **`menu.yaml`**: Default menu configuration file, where users can define menu structure.
 
-### Add Front Matter in Markdown files
+## Add Front Matter in Markdown files
 
 Dedalo supports YAML front matter in Markdown files, which allows you to define metadata such as `title` or `description`. Example:
 
@@ -56,7 +65,7 @@ description: "Learn more about our team and mission."
 Welcome to the about page! Here you’ll find information about our team and mission.
 ```
 
-### Add a Theme
+## Add a Theme
 
 You can add a theme to your project using the `theme` command:
 
@@ -66,7 +75,7 @@ ssg theme mysite my-theme
 
 This creates a `themes/my-theme` directory where you can customize the HTML template.
 
-### Add a New Page
+## Add a New Page
 
 To add a new page, use the `page` command:
 
@@ -76,7 +85,7 @@ ssg page mysite about
 
 This creates a `content/about.md` file. Use Markdown syntax to add content to this file.
 
-### Build the Site
+## Build the Site
 
 To generate the HTML files from your Markdown and templates, run:
 
@@ -86,7 +95,7 @@ ssg build mysite my-theme
 
 This compiles the site and outputs HTML files to the `public` directory, ready for deployment.
 
-### Run the Development Server
+## Run the Development Server
 
 Preview the site locally with the `dev` command:
 
@@ -96,7 +105,7 @@ ssg dev mysite
 
 The server automatically rebuilds and refreshes the site on changes to the content or theme files.
 
-### How to Use Custom Layouts
+## How to Use Custom Layouts
 
 1. **Specify the Layout in Front Matter**  
    Add a `layout` field in the YAML front matter of your Markdown file. For example:

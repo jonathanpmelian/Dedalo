@@ -57,4 +57,4 @@ Tests are written with `pytest`. To run tests:
 pytest
 ```
 
-You're now ready to create your first project! See [Usage](docs/usage.md) for details.
+You're now ready to create your first project! See [Usage](usage.md) for details.
