@@ -101,12 +101,9 @@ def build_site(project_name, theme_name):
     
     menu = build_menu(project_name)
     content_dir = os.path.join(os.getcwd(), project_name, 'content')
-    theme_dir = os.path.join(os.getcwd(), project_name, 'themes', theme_name, 'index.html')
     output_dir = os.path.join(os.getcwd(), project_name, 'public')
 
-    with open(theme_dir, 'r') as file:
-        template_content = file.read()
-        template = Template(template_content)
+   
 
     for md_file in os.listdir(content_dir):
         if md_file.endswith('.md'):
@@ -116,13 +113,19 @@ def build_site(project_name, theme_name):
                 title = front_matter.get('title') or markdown_content.splitlines()[0].lstrip('# ')
                 description = front_matter.get('description', '')
                 layout = front_matter.get('layout', 'index.html')
-                # TODO: check if the layout is the index.html, is not adapt the template.
-                rendered_html = template.render(Description=description, Title=title, Content=html_content, Menu=menu)
 
-                output_path = os.path.join(output_dir, md_file.replace('.md', '.html'))
+            # Define the template based on layout value.
+            theme_dir = os.path.join(os.getcwd(), project_name, 'themes', theme_name, layout)   
 
-                with open(output_path, 'w') as file:
-                    file.write(rendered_html)
+            with open(theme_dir, 'r') as file:
+                template_content = file.read()
+                template = Template(template_content)
+                
+            rendered_html = template.render(Description=description, Title=title, Content=html_content, Menu=menu)
+            output_path = os.path.join(output_dir, md_file.replace('.md', '.html'))
+
+            with open(output_path, 'w') as file:
+                file.write(rendered_html)
     
     generate_sitemap(output_dir)
     logging.info(f'Site built successfully!')
